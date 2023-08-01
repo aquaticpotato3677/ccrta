@@ -13,7 +13,7 @@ let stops = new Map();
 let routes = {};
 let parser = new DOMParser();
 
-init();
+map.on('load', init);
 async function init(){
     let res = await fetch('https://retro.umoiq.com/service/publicXMLFeed?command=routeConfig&a=ccrta');
     let xml = await res.text();
