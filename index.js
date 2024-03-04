@@ -1,4 +1,4 @@
-mapboxgl.accessToken = 'pk.eyJ1IjoiYXF1YXRpY3BvdGF0bzM2NzciLCJhIjoiY2xiNGkxamNhMDd2MDNycHFvaGFhbm5ibCJ9.JOPGAumKnABqtmfkRf2eyw';
+mapboxgl.accessToken = 'pk.eyJ1IjoiYXF1YXRpY3BvdGF0bzM2NzciLCJhIjoiY2xiYmFzNnlmMGhmdTNxbjh0YzBtdHBjbyJ9.KDH3QEkjhBJEt_fIWff8BA';
 let map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/streets-v12',
@@ -149,7 +149,7 @@ async function fetchVehicles(){
                 'textColor': '#'+routes[route].textColor
             });
             let marker = new mapboxgl.Marker(node).setLngLat([lon, lat]);
-            marker.setPopup(new mapboxgl.Popup().setHTML('vehicle '+id+' on route '+routes[route].name+' toward '+routes[route].directions[dir]+' moving at '+speed+' km/hr<br>last updated '+secondsSince+' seconds ago'));
+            marker.setPopup(new mapboxgl.Popup().setHTML('vehicle '+id+' on route '+routes[route].name+' toward '+routes[route].directions[dir]+' moving at '+speed+' km/hr<br>last updated <span class=seconds>'+secondsSince+'</span> seconds ago'));
             marker.addTo(map);
             vehicles.set(id, {'marker': marker, 'seconds': secondsSince});
         }else{
@@ -159,7 +159,7 @@ async function fetchVehicles(){
             marker.getElement().style.background = '#'+routes[route].backgroundColor;
             marker.getElement().style.color = '#'+routes[route].textColor;
             marker.setLngLat([lon, lat]);
-            marker.getPopup().setHTML('vehicle '+id+' on route '+routes[route].name+' toward '+routes[route].directions[dir]+' moving at '+speed+' km/hr<br>last updated '+secondsSince+' seconds ago')
+            marker.getPopup().setHTML('vehicle '+id+' on route '+routes[route].name+' toward '+routes[route].directions[dir]+' moving at '+speed+' km/hr<br>last updated <span class=seconds>'+secondsSince+'</span> seconds ago');
         }
 
         for(let [key, value] of vehicles){
@@ -182,4 +182,11 @@ function createMarker(obj){
     return div;
 }
 
+setInterval(updateTimes,1000);
+function updateTimes(){
+    let secs = document.getElementsByClassName('seconds');
+    for(let i=0; i<secs.length; i++){
+        secs[i].innerHTML = Number(secs[i].innerHTML) + 1;
+    }
+}
 // this is 100% client side right now: todo, add block data? that will require a shift to backend
