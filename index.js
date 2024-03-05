@@ -161,12 +161,11 @@ async function fetchVehicles(){
             marker.setLngLat([lon, lat]);
             marker.getPopup().setHTML('vehicle '+id+' on route '+routes[route].name+' toward '+routes[route].directions[dir]+' moving at '+speed+' km/hr<br>last updated <span class=seconds>'+secondsSince+'</span> seconds ago');
         }
-
-        for(let [key, value] of vehicles){
-            if(value.seconds>600) {
-                vehicles.delete(key);
-                value.marker.remove();
-            }
+    }
+    for(let [key, value] of vehicles){
+        if(value.seconds>600) {
+            vehicles.delete(key);
+            value.marker.remove();
         }
     }
     setTimeout(fetchVehicles, 10000);
