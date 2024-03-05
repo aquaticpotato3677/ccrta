@@ -71,12 +71,6 @@ async function init(){
                 'line-width':5
             }
         });
-        // map.on('click',routesData[i].attributes.title.value,(data)=>{
-        //     new mapboxgl.Popup()
-        //     .setLngLat(data.lngLat)
-        //     .setHTML(routesData[i].attributes.title.value)
-        //     .addTo(map);
-        // });
 
         routes[routesData[i].attributes.tag.value] = route;
         let stopsData = routesData[i].children;
@@ -142,6 +136,12 @@ async function fetchVehicles(){
         let heading = vehiclesData[i].attributes.heading.value;
         let speed = vehiclesData[i].attributes.speedKmHr.value;
         let dir = vehiclesData[i].attributes.dirTag?.value;
+        if(dir&&!routes[route].directions[dir]){
+            let sub = dir.substring(0, dir.lastIndexOf('\_'));
+            for(let key in routes[route].directions){
+                if(key.substring(0, sub.length)==sub) dir = key;
+            }
+        }
         if(!vehicles.has(id)){
             let node = createMarker({
                 'label': id,
