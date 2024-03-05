@@ -141,7 +141,7 @@ async function fetchVehicles(){
         let predictable = vehiclesData[i].attributes.predictable.value;
         let heading = vehiclesData[i].attributes.heading.value;
         let speed = vehiclesData[i].attributes.speedKmHr.value;
-        let dir = vehiclesData[i].attributes.dirTag.value;
+        let dir = vehiclesData[i].attributes.dirTag?.value;
         if(!vehicles.has(id)){
             let node = createMarker({
                 'label': id,
